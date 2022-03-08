@@ -1,0 +1,23 @@
+========================================================================
+ Los Angeles County LA City Council Districts (2002)
+------------------------------------------------------------------------
+ https://koordinates.com/layer/95999-los-angeles-county-la-city-council-districts-2002/
+========================================================================
+From: Los Angeles County, California
+
+CRS: WGS 84 / Pseudo-Mercator
+
+------------------------------------------------------------------------
+ Processing steps applied by Koordinates
+------------------------------------------------------------------------
+
+- imported to Koordinates in Esri JSON format on 05 Sep 2018
+- updated with new data on 21 Jun 2019
+- converted by Koordinates to Shapefile on 05 Mar 2022 (reference #2432470)
+
+====================
+No license specified
+====================
+
+No license was specified for this layer. This could mean default rights under copyright law for your legal jurisdiction may apply. Please check with Koordinates if you're unsure of your right to access and use this layer.
+
