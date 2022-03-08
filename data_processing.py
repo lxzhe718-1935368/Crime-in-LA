@@ -30,9 +30,10 @@ def get_LAcrime_geodata(la_map):
     la_crime_data.crs = la_map.crs
     # convert time colume to int so make it easier to use later
     la_crime_data["TIME OCC"] = la_crime_data["TIME OCC"]\
-                                .str.replace(":", "").astype(int)
+        .str.replace(":", "").astype(int)
     la_crime_data["AREA NAME"] = la_crime_data["AREA NAME"].str.lower()
     return gpd.GeoDataFrame(la_crime_data, geometry=geometry)
+
 
 def get_LAmap():
     """
@@ -48,6 +49,7 @@ def get_LAmap():
         ["north hollywood", "west los angeles"], ["n hollywood", "west la"])
     return la_map
 
+
 def filter_time_data(la_crime_data):
     """
     Helper method for plot_crime_count.
@@ -56,7 +58,8 @@ def filter_time_data(la_crime_data):
     happend at whole time(1AM, 2AM .ect) and
     dataFrame that contain all the happened crime
     """
-    process_data = la_crime_data.groupby("TIME OCC", as_index=False)["count"].sum()
+    process_data = la_crime_data.groupby("TIME OCC",
+                                         as_index=False)["count"].sum()
     process_data = process_data[["TIME OCC", "count"]]
     return (process_data[(process_data["TIME OCC"] % 100 == 0)],
             process_data)
@@ -69,7 +72,8 @@ def join_map_crime(la_crime_data, la_map):
     return geoData that join those data together with
     count of crime, and processed data for plot top 15 crime took place.
     """
-    crime_count = la_crime_data.groupby("AREA NAME", as_index=False)["count"].sum()
+    crime_count = la_crime_data.groupby("AREA NAME",
+                                        as_index=False)["count"].sum()
     # Choice any other column will work because we use count
     crime_count = crime_count[["AREA NAME", "count"]]
     # put la_map in left will keep data in geoData
@@ -82,7 +86,8 @@ def join_map_crime(la_crime_data, la_map):
     location_count = location_count.head(n=15)
     # put la_map in left keep merge return geoDataframe
     # since we use grouby instead of disslove, we can't use sjoin here
-    merged = la_map.merge(crime_count, left_on="APREC", right_on="AREA NAME", how="inner")
+    merged = la_map.merge(crime_count, left_on="APREC",
+                          right_on="AREA NAME", how="inner")
     return merged, location_count
 
 
@@ -98,9 +103,10 @@ def crime_type_data(la_crime_data):
     check.sort_values(by=["count"], ascending=False, inplace=True)
     check = check["Crm Cd Desc"].head(n=7)
 
-    crime_type_data = la_crime_data[la_crime_data["Crm Cd Desc"].isin(check.tolist())]
+    crime_type_data = la_crime_data[la_crime_data["Crm Cd Desc"].
+                                    isin(check.tolist())]
     crime_type_data = crime_type_data.groupby(["Crm Cd Desc", "Premis Desc"],
-                                            as_index=False).size()
+                                              as_index=False).size()
     return crime_type_data[crime_type_data["size"] > 3000]
 
 
@@ -111,9 +117,11 @@ def wapon_data_process(la_crime_data):
     top 10 wapon that involved in crime
     """
     wapon_data = la_crime_data[la_crime_data["Weapon Used Cd"] != 500.0]
-    wapon_data = wapon_data.groupby("Weapon Desc", as_index=False)["count"].sum()
+    wapon_data = wapon_data.groupby("Weapon Desc",
+                                    as_index=False)["count"].sum()
     wapon_data.sort_values(by=["count"], ascending=False, inplace=True)
     return wapon_data.head(n=10)
+
 
 def wapon_map_process(la_crime_data, la_map):
     """
@@ -123,8 +131,8 @@ def wapon_map_process(la_crime_data, la_map):
     crime that involve strong arm and crime that involve pistol
     """
     # data involved strong arm
-    wapon_strong_arm = la_crime_data[la_crime_data["Weapon Desc"] ==
-        "STRONG-ARM (HANDS, FIST, FEET OR BODILY FORCE)"]
+    arm_disp = "STRONG-ARM (HANDS, FIST, FEET OR BODILY FORCE)"
+    wapon_strong_arm = la_crime_data[la_crime_data["Weapon Desc"] == arm_disp]
     wapon_strong_arm = wapon_strong_arm.groupby("AREA NAME",
                                                 as_index=False)["count"].sum()
     wapon_strong_arm = la_map.merge(wapon_strong_arm, left_on="APREC",
@@ -132,7 +140,8 @@ def wapon_map_process(la_crime_data, la_map):
     # data involved pistol
     wapon_pistol = la_crime_data[la_crime_data["Weapon Desc"].isin(
                                 ["HAND GUN", "SEMI-AUTOMATIC PISTOL"])]
-    wapon_pistol = wapon_pistol.groupby("AREA NAME", as_index=False)["count"].sum()
+    wapon_pistol = wapon_pistol.groupby("AREA NAME",
+                                        as_index=False)["count"].sum()
     wapon_pistol = la_map.merge(wapon_pistol, left_on="APREC",
                                 right_on="AREA NAME", how="inner")
     return wapon_strong_arm, wapon_pistol
