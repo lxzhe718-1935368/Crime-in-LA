@@ -1,6 +1,12 @@
 """
-This file is the implemention of cse 163 final project.
-This file is runable part of the project, 
+Xiaozhe(Jack) Liu, Jieyun(Ellie) Xie
+2022/3/08
+This file is a part of implemention of cse 163 final project.
+This file is runable part of the project,
+provide some data analysis method to investgate
+crime happend in LA from 2020 to now.
+Generate and save some graphs in local folder,
+read README to see more details about how to run this code.
 """
 import data_processing as process
 import matplotlib.pyplot as plt
@@ -13,7 +19,8 @@ FIG_PATH = "C:/Users/718/Desktop/cse163/result_img/"
 
 def plot_crime_count(la_crime_data):
     """
-    plot the crime count vs time graph,
+    takes la crime data and genetate graph of
+    relationship between crime count and time
     save the figure as png at given dir with name:"crime_count_Vs_time.png"
     """
     whole_time, all_time = process.filter_time_data(la_crime_data)
@@ -38,8 +45,14 @@ def plot_crime_count(la_crime_data):
     fig.savefig(os.path.join(FIG_PATH, "Crime_Vs_time.png"))
 
 
-
 def crime_in_map(la_crime_data, la_map):
+    """
+    takes la crime and la map data,
+    genetate 2 graph of how crime distribut in LA
+    save one figure as png at given dir with name:"crime_in_map.png",
+    one in HTML "details_crime_Distribute.html"
+    which allow you hover mouse in the graph to see more detail.
+    """
     crime_count, location_count = process.join_map_crime(la_crime_data, la_map)
     
     fig = plt.figure(figsize=(30, 25), constrained_layout=True)
@@ -51,7 +64,6 @@ def crime_in_map(la_crime_data, la_map):
     # do not need axis for map graph
     ax1.axis('off')
     ax2.axis('off')
-
     # ax1 shows every crime happened in la
     la_map.plot(ax=ax1)
     la_crime_data.plot(ax=ax1, color="red")
@@ -77,11 +89,12 @@ def crime_in_map(la_crime_data, la_map):
     figure.write_html(os.path.join(FIG_PATH, "details_crime_Distribute.html"))
 
 
-
 def crime_type_analysis(la_crime_data):
     """
-    Types of Crimes at different Premises,
-    gives more details on how crime distribute in different place
+    takes la crime data
+    genetate a graph about what type of crimes happened in different location.
+    save figure in HTML in "crime_type_analysis.html"
+    which allow you hover mouse in the graph to see more detail.
     """
     crime_type = process.crime_type_data(la_crime_data)
     fig = px.bar(crime_type, x="size", y="Premis Desc",
@@ -89,7 +102,12 @@ def crime_type_analysis(la_crime_data):
     fig.write_html(os.path.join(FIG_PATH, "crime_type_analysis.html"))
 
 
-def wapon_used(la_crime_data, la_map):
+def wapon_used(la_crime_data):
+    """
+    take la crime data
+    genetate a graph about how wapon involved in crime
+    save one figure as png at given dir with name:"wapon_use_analysis.png",
+    """
     wapon_data = process.wapon_data_process(la_crime_data)
     plt.figure(figsize=(20, 15))
     graph = sns.histplot(data=wapon_data, y="Weapon Desc", weights="count", color="purple")
@@ -110,20 +128,36 @@ def wapon_used(la_crime_data, la_map):
 
 def wapon_in_map(la_crime_data, la_map):
     """
-    plot strong-arm and hand gan distribution in LA map
+    takes la crime and la map data
+    genetate a graph about how strong arm and pistol involved in crimes
+    save figure in HTML in "wapon_involved.html"
+    which allow you hover mouse in the graph to see more detail.
     """
     wapon_arm, wapon_pistol = process.wapon_map_process(la_crime_data, la_map)
-    fig, ax = plt.subplots(2, figsize=(20, 15))
-    la_map.plot(ax=ax[0], color="red")
-    wapon_arm.plot(column="count", ax=ax[0], legend=True)
-    la_map.plot(ax=ax[1], color="red")
-    wapon_pistol.plot(column="count", ax=ax[1], legend=True)
-    ax[0].set_title("Distribution of crime invoded strong arm", fontsize=30)
-    ax[1].set_title("Distribution of crime invoded pistol", fontsize=30)
-    fig.savefig(os.path.join(FIG_PATH, "armed_crime_LA.png"))
+    fig_arm = px.choropleth_mapbox(wapon_arm, geojson=wapon_arm.geometry,
+                    locations=wapon_arm.index,
+                    mapbox_style="carto-positron", color="count", height=700,
+                    opacity=0.7, hover_data=["count", "AREA NAME"],
+                    center={"lat": 34.0522, "lon": -118.2437}, zoom=9,
+                    title="Distribution of crime invoded strong arm")
+    fig_pistol = px.choropleth_mapbox(wapon_pistol, geojson=wapon_pistol.geometry,
+                    locations=wapon_pistol.index, height=700,
+                    mapbox_style="carto-positron", color="count",
+                    opacity=0.7, hover_data=["count", "AREA NAME"],
+                    center={"lat": 34.0522, "lon": -118.2437}, zoom=9,
+                    title="Distribution of crime invoded strong arm")
+    with open(os.path.join(FIG_PATH, "wapon_involved.html"), "w") as f:
+        f.write(fig_pistol.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_arm.to_html(full_html=False, include_plotlyjs='cdn'))
 
 
 def victims_analysis(la_crime_data):
+    """
+    takes la crime
+    genetate a graph about victims's age and sex
+    save figure in HTML in "wapon_involved.html"
+    which allow you hover mouse in the graph to see more detail.
+    """
     victims = process.victims_data(la_crime_data)
     fig = px.histogram(victims, x="Vict Age", y="count",
                 color="Vict Sex", barmode="group",
@@ -141,9 +175,10 @@ def main():
     plot_crime_count(la_crime_data)
     crime_in_map(la_crime_data, la_map)
     crime_type_analysis(la_crime_data)
-    wapon_used(la_crime_data, la_map)
+    wapon_used(la_crime_data)
     wapon_in_map(la_crime_data, la_map)
     victims_analysis(la_crime_data)
+
 
 if __name__ == '__main__':
     main()

@@ -11,4 +11,4 @@
 4. To run test code, you need to have cse163_utils.py file in the same folder as test_code.py
 5. Change **FIG_PATH** to where you want to store result graph in top of final_project.py
 
-### IF you download the full holder I upload, thing you need to do is change **Crime_FILE_PATH** and **LA_FILE_PATH** to where you download the folder and set up environment correctly
+### IF you download the full holder I upload, thing you need to do is change **Crime_FILE_PATH** and **LA_FILE_PATH** to where you download the folder and set up environment correct
