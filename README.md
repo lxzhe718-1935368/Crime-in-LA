@@ -4,7 +4,7 @@
     - la map data: at https://geohub.lacity.org/datasets/lahub::lapd-divisions/about, click the download and choose Shapefile.<br>
     unzip all the file and put it in one folder. We will import .shp file but all other file is necessary Should be 206.2KB
     - la crime data: https://www.kaggle.com/hemil26/crime-in-los-angeles?select=crime_in_la.csv to download the csv file and unzip it
-2. In the final_project.py, change the **Crime_FILE_PATH** where you download la crime csv data and **LA_FILE_PATH** to where you download la map .shp data. Those can be found at data_processing.py<br>
+2. we use relative path for **Crime_FILE_PATH** and **LA_FILE_PATH** if something wrong, you can replace with abs path<br>
 3. Use cse 163 environment so that all the package is install, more details in https://courses.cs.washington.edu/courses/cse163/software/<br>
     - Need to select the environment after cse 163 environment is being download. In vs code, use ctrl+shift+p and type **select interpreter**
     - Also use **pip install plotly** to install plotly packge. You can run it at juypter nootbook

@@ -9,8 +9,8 @@ in order to let final_project.py can use them to make data analysis.
 import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Point
-Crime_FILE_PATH = "C:/Users/718/Desktop/cse163/crime_in_la.csv"
-LA_FILE_PATH = "C:/Users/718/Desktop/cse163/LAPD_map/LAPD_Divisions.shp"
+Crime_FILE_PATH = "./crime_in_la.csv"
+LA_FILE_PATH = "./LAPD_map/LAPD_Divisions.shp"
 
 
 def get_LAcrime_geodata(la_map):

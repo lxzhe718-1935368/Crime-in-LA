@@ -15,7 +15,7 @@ import numpy as np
 import seaborn as sns
 import plotly.express as px
 
-FIG_PATH = "C:/Users/718/Desktop/cse163/result_img/"
+FIG_PATH = "./result_img/"
 
 
 def plot_crime_count(la_crime_data):
