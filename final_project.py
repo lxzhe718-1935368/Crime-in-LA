@@ -174,7 +174,7 @@ def victims_analysis(la_crime_data):
     victims = process.victims_data(la_crime_data)
     fig = px.histogram(victims, x="Vict Age", y="count",
                        color="Vict Sex", barmode="group",
-                       height=400)
+                       height=800)
     fig.update_layout(title_text="Count Crime by Victims Sex",
                       xaxis=dict(
                         tickmode='array',

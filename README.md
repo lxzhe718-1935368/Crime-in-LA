@@ -1,5 +1,8 @@
 # CSE 163 final project - Crime in LA
 ## How to run the code
+### IF you download the full holder I upload, thing you need to do is set up environment correct and change the **FIG_PATH** in final_project.py to where you want to store the graph
+Also you can download the project in https://github.com/lxzhe718-1935368/cse-163-final
+
 1. First need to download all the data set:<br>
     - la map data: at https://geohub.lacity.org/datasets/lahub::lapd-divisions/about, click the download and choose Shapefile.<br>
     unzip all the file and put it in one folder. We will import .shp file but all other file is necessary Should be 206.2KB
@@ -11,4 +14,3 @@
 4. To run test code, you need to have cse163_utils.py file in the same folder as test_code.py
 5. Change **FIG_PATH** to where you want to store result graph in top of final_project.py
 
-### IF you download the full holder I upload, thing you need to do is change **Crime_FILE_PATH** and **LA_FILE_PATH** to where you download the folder and set up environment correct
