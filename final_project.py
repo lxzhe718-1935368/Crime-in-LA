@@ -139,6 +139,8 @@ def wapon_in_map(la_crime_data, la_map):
     """
     # fig_arm_title help to reduce length in mapbox()
     fig_arm_title = "Distribution of crime invoded strong arm"
+    fig_pistol_title = "Distribution of crime invoded pistol"
+    
     wapon_arm, wapon_pistol = process.wapon_map_process(la_crime_data, la_map)
     fig_arm = px.choropleth_mapbox(wapon_arm,
                                    geojson=wapon_arm.geometry,
@@ -149,7 +151,7 @@ def wapon_in_map(la_crime_data, la_map):
                                    center={"lat": 34.0522, "lon": -118.2437},
                                    title=fig_arm_title)
     # fig_pistol_title help to reduce length in mapbox()
-    fig_pistol_title = "Distribution of crime invoded strong arm"
+    
     fig_pistol = px.choropleth_mapbox(wapon_pistol,
                                       geojson=wapon_pistol.geometry,
                                       locations=wapon_pistol.index, height=700,
