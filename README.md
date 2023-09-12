@@ -1,4 +1,4 @@
-# CSE 163 final project - Crime in LA
+# Crime in LA Analysis
 ## How to run the code
 ### IF you download the full holder I upload, thing you need to do is set up environment correct and change the **FIG_PATH** in final_project.py to where you want to store the graph
 Also you can download the project in https://github.com/lxzhe718-1935368/cse-163-final
